@@ -1,8 +1,8 @@
-defmodule DublinBus.Mixfile do
+defmodule DublinBusApi.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :dublin_bus,
+    [app: :dublin_bus_api,
      version: "0.0.1",
      elixir: "~> 1.0",
      build_embedded: Mix.env == :prod,
