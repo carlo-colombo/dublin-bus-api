@@ -1,21 +1,89 @@
 defmodule Stop do
+
   defstruct name: nil, ref: nil, timetable: [], lines: []
 
+  @last_time_checked {2015, 9, 4}
+
+  @moduledoc """
+  Dublin Bus API
+  =============
+
+  Access to the Real Time Passenger Information (RTPI) for Dublin Bus services.
+
+  The API are focused on retrieving bus stop and timetables
+
+  Disclaimer
+  ----------
+
+  This service is in no way affiliated with Dublin Bus or the providers of the RTPI service.
+
+  Data are retrieved parsing the still-in-development [RTPI](http://rtpi.ie/) site. As with any website
+  scraping the html could change without notice and break the API.
+
+  Rtpi.ie html parsing work as **#{inspect(@last_time_checked)}**
+
+
+  Test
+  -----
+  Parsing function are tested both against fixture and the actual website, this could lead to failing test if an
+  internet connection is missing. It also could find if something has changed in the rtpi.ie website html.
+
+  Run
+      mix Test
+
+  """
+
+  defmodule Row do
+    defstruct [:line, :direction, :time]
+  end
+
+  @info_url "http://rtpi.ie/Popup_Content/WebDisplay/WebDisplay.aspx?stopRef="
+  @search_url  "http://rtpi.ie/Text/StopResults.aspx?did=-1&search="
+
+
+  @typedoc """
+  A struct that represent a row in a bus stop timetable, time could be an absolute (16:13) or relative time (5m).
+  """
+  @type row :: %Row{
+    line: String.t,
+    direction: String.t,
+    time: String.t
+  }
+
+  @typedoc """
+  A struct that represent a single stop, it could contain the `timetable` or the `lines` that serve the stop.
+
+  `name` and `ref` are always available
+  """
+  @type stop :: %Stop{
+    name: String.t,
+    ref: String.t,
+    lines: list(String.t),
+    timetable: list(row)}
+
+  @doc """
+  Return the last time it was checked that the html parsing is still working
+  """
+  def last_time_checked(), do: @last_time_checked
+
+  @doc"""
+  Return the requested `Stop`
+  """
+  @spec get_info(String.t) :: stop
   def get_info(id) when is_binary(id) do
     stop = String.rjust(id,5,?0)
-    url = "http://rtpi.ie/Popup_Content/WebDisplay/WebDisplay.aspx?stopRef=#{stop}"
 
-    body = HTTPoison.get(url)
-     |> get_body
+    body = HTTPoison.get(@info_url <> stop)
+    |> get_body
 
     timetable = Floki.find(body,".gridRow")
-     |> Enum.map(&parse_row/1)
+    |> Enum.map(&parse_row/1)
 
     name = Floki.find(body, "#stopTitle")
-     |> Floki.text
-     |> String.split("-")
-     |> List.first
-     |> String.strip
+    |> Floki.text
+    |> String.split("-")
+    |> List.first
+    |> String.strip
 
     %Stop{
       ref: stop,
@@ -24,20 +92,24 @@ defmodule Stop do
     }
   end
 
+  @spec get_info(Integer.t) :: stop
   def get_info(id) do
     get_info(Integer.to_string(id))
   end
 
+  @doc """
+  Return a list of `Stop` matching the parameter provided
+  """
+  @spec search(String.t) :: list(stop)
   def search(q) do
-    url = "http://rtpi.ie/Text/StopResults.aspx?did=-1&search=#{q}"
 
-    HTTPoison.get(url)
-     |> get_body
-     |> Floki.find("#GridViewStopResults")
-     |> Tuple.to_list
-     |> List.last # look for the children of the table (tr)
-     |> tl        # discard the header
-     |> Enum.map(&parse_stop/1)
+    HTTPoison.get(@search_url <> q)
+    |> get_body
+    |> Floki.find("#GridViewStopResults")
+    |> Tuple.to_list
+    |> List.last # look for the children of the table (tr)
+    |> tl        # discard the header
+    |> Enum.map(&parse_stop/1)
 
   end
 
@@ -64,14 +136,13 @@ defmodule Stop do
   end
 
   defp parse_row({"tr", _,
-                   [{"td", [{"class", "gridServiceItem"}, _], [line]},
-                    {"td", [{"class", "gridDestinationItem"}, _],
-                     [{"span", [{"title", terminus}, _], [direction]}]},
-                    {"td", [{"class", "gridTimeItem"}, _], [time]}, _]}) do
+                  [{"td", [{"class", "gridServiceItem"}, _], [line]},
+                   {"td", [{"class", "gridDestinationItem"}, _],
+                    [{"span", _, [direction]}]},
+                   {"td", [{"class", "gridTimeItem"}, _], [time]}, _]}) do
 
-    %{time: time,
-      line: line,
-      terminus: terminus,
-      direction: direction}
+    %Row{time: time,
+         line: line,
+         direction: direction}
   end
 end
