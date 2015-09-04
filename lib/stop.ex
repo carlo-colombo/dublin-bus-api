@@ -98,12 +98,12 @@ defmodule Stop do
   end
 
   @doc """
-  Return a list of `Stop` matching the parameter provided
+  Return a list of `Stop` matching the `query` provided
   """
   @spec search(String.t) :: list(stop)
-  def search(q) do
+  def search(query) do
 
-    HTTPoison.get(@search_url <> q)
+    HTTPoison.get(@search_url <> query)
     |> get_body
     |> Floki.find("#GridViewStopResults")
     |> Tuple.to_list
