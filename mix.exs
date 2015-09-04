@@ -8,6 +8,7 @@ defmodule DublinBusApi.Mixfile do
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps,
+     description: "Access to the Real Time Passenger Information (RTPI) for Dublin Bus services.",
      name: "Dublin Bus API",
      source_url: "https://github.com/carlo-colombo/dublin-bus-api"]
   end
