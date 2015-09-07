@@ -27,10 +27,6 @@ defmodule Stop do
   -----
   Parsing function are tested both against fixture and the actual website, this could lead to failing test if an
   internet connection is missing. It also could find if something has changed in the rtpi.ie website html.
-
-  Run
-      mix Test
-
   """
 
   defmodule Row do
