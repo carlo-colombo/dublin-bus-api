@@ -94,7 +94,7 @@ defmodule Stop do
   end
 
   @doc """
-  Return a list of `Stop` matching the `query` provided
+  Return a list of `Stop` matching the `query` provided. It only returns the first ten results
   """
   @spec search(String.t) :: list(stop)
   def search(query) do
@@ -106,6 +106,7 @@ defmodule Stop do
     |> List.last # look for the children of the table (tr)
     |> tl        # discard the header
     |> Enum.map(&parse_stop/1)
+    |> Enum.reject(&is_nil(&1))
 
   end
 
@@ -120,16 +121,22 @@ defmodule Stop do
                    [{"td",_ , [line]},
                     {"td",_ , [name]}, lines_html ]}) do
 
-    lines = lines_html
-    |> Floki.find("tr")
-    |> Enum.map(&Floki.find(&1,"td"))
-    |> Enum.map(fn x -> Enum.map(x, &Floki.text/1) |> List.to_tuple end )
-    |> Enum.into(%{})
+    lines = try do
+              lines_html
+              |> Floki.find("tr")
+              |> Enum.map(&Floki.find(&1,"td"))
+              |> Enum.map(fn x -> Enum.map(x, &Floki.text/1) |> List.to_tuple end )
+              |> Enum.into(%{})
+            rescue
+              _ -> %{}
+            end
 
     %Stop{name: Floki.text(name),
           ref: line,
           lines: lines  }
   end
+
+  defp parse_stop(_), do: nil
 
   defp parse_row({"tr", _,
                   [{"td", [{"class", "gridServiceItem"}, _], [line]},

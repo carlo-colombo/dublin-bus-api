@@ -18,7 +18,7 @@ defmodule StopTest do
 
   test "get_info works with a number too" do
     TestHelper.with_response_from_fixture ("test/fixture/WebDisplay.html") do
-      resp = Stop.get_info(112)
+      Stop.get_info(112)
     end
   end
 
@@ -41,17 +41,44 @@ defmodule StopTest do
       assert first.__struct__ == Stop
 
       assert Enum.count(first.lines) == 2
-      %{"32X, 41X" => "UCD Belfield" } = first.lines
+      assert %{"32X, 41X" => "UCD Belfield" } = first.lines
     end
   end
 
-  test "search with request" do
+  test "search should handle stops with no services" do
+    TestHelper.with_response_from_fixture "test/fixture/StopResults2.html" do
+      resp = Stop.search("dundrum")
+      third = Enum.at(resp,2)
+
+      assert third.lines == %{}
+    end
+  end
+
+  test "search should return max ten results" do
+    TestHelper.with_response_from_fixture "test/fixture/StopResults2.html" do
+      resp = Stop.search("dundrum")
+
+      assert Enum.count(resp) == 10
+    end
+  end
+
+  test "search with request (d'olier)" do
     resp = Stop.search("d'olier")
     first = List.first(resp)
 
     assert Enum.count(resp) == 4
     assert first.name == "D'Olier Street"
     assert first.ref == "00333"
+    assert first.__struct__ == Stop
+  end
+
+  test "search with request (dundrum)" do
+    resp = Stop.search("dundrum")
+    first = List.first(resp)
+
+    assert Enum.count(resp) == 10
+    assert first.name == "Dundrum"
+    assert first.ref == "02826"
     assert first.__struct__ == Stop
   end
 end
