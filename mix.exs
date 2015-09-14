@@ -10,7 +10,15 @@ defmodule DublinBusApi.Mixfile do
      deps: deps,
      description: "Access to the Real Time Passenger Information (RTPI) for Dublin Bus services.",
      name: "Dublin Bus API",
-     source_url: "https://github.com/carlo-colombo/dublin-bus-api"]
+     source_url: "https://github.com/carlo-colombo/dublin-bus-api",
+     package: [
+       licenses: ["MIT"],
+       contributors: ["Carlo Colombo"],
+       links: %{
+         "Github" => "https://github.com/carlo-colombo/dublin-bus-api",
+         "docs" => "http://hexdocs.pm/dublin_bus_api/overview.html"
+       }
+     ]]
   end
 
   def application do
