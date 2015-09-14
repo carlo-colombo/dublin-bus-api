@@ -3,6 +3,9 @@ defmodule Stop do
   defstruct name: nil, ref: nil, timetable: [], lines: []
 
   @last_time_checked {2015, 9, 4}
+  @last_time_checked_formatted @last_time_checked
+  |> Tuple.to_list
+  |> Enum.join("-")
 
   @moduledoc """
   Dublin Bus API
@@ -20,7 +23,7 @@ defmodule Stop do
   Data are retrieved parsing the still-in-development [RTPI](http://rtpi.ie/) site. As with any website
   scraping the html could change without notice and break the API.
 
-  Rtpi.ie html parsing work as **#{inspect(@last_time_checked)}**
+  Rtpi.ie html parsing work as **#{@last_time_checked_formatted}**
 
 
   Test

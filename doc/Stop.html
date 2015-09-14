@@ -105,7 +105,7 @@
 <p>This service is in no way affiliated with Dublin Bus or the providers of the RTPI service.</p>
 <p>Data are retrieved parsing the still-in-development <a href="http://rtpi.ie/">RTPI</a> site. As with any website
 scraping the html could change without notice and break the API.</p>
-<p>Rtpi.ie html parsing work as <strong>{2015, 9, 4}</strong></p>
+<p>Rtpi.ie html parsing work as <strong>2015-9-4</strong></p>
 <h2>Test</h2>
 <p>Parsing function are tested both against fixture and the actual website, this could lead to failing test if an
 internet connection is missing. It also could find if something has changed in the rtpi.ie website html.</p>
@@ -133,7 +133,7 @@ internet connection is missing. It also could find if something has changed in t
 </tr>
 <tr>
   <td class="summary_signature"><a href="#search/1">search(query)</a></td>
-  <td class="summary_synopsis"><p>Return a list of <a href="Stop.html#content"><code class="inline">Stop</code></a> matching the <code class="inline">query</code> provided</p>
+  <td class="summary_synopsis"><p>Return a list of <a href="Stop.html#content"><code class="inline">Stop</code></a> matching the <code class="inline">query</code> provided. It only returns the first ten results</p>
 </td>
 </tr>
 
@@ -194,7 +194,7 @@ internet connection is missing. It also could find if something has changed in t
 
   </section>
   
-    <a href="https://github.com/carlo-colombo/dublin-bus-api/blob/master/lib/stop.ex#L69" class="view_source">Source</a>
+    <a href="https://github.com/carlo-colombo/dublin-bus-api/blob/master/lib/stop.ex#L72" class="view_source">Source</a>
   
 </section>
 <section class="detail">
@@ -212,7 +212,7 @@ internet connection is missing. It also could find if something has changed in t
 
   </section>
   
-    <a href="https://github.com/carlo-colombo/dublin-bus-api/blob/master/lib/stop.ex#L63" class="view_source">Source</a>
+    <a href="https://github.com/carlo-colombo/dublin-bus-api/blob/master/lib/stop.ex#L66" class="view_source">Source</a>
   
 </section>
 <section class="detail">
@@ -233,11 +233,11 @@ internet connection is missing. It also could find if something has changed in t
     </ul>
   
   <section class="docstring">
-    <p>Return a list of <a href="Stop.html#content"><code class="inline">Stop</code></a> matching the <code class="inline">query</code> provided</p>
+    <p>Return a list of <a href="Stop.html#content"><code class="inline">Stop</code></a> matching the <code class="inline">query</code> provided. It only returns the first ten results</p>
 
   </section>
   
-    <a href="https://github.com/carlo-colombo/dublin-bus-api/blob/master/lib/stop.ex#L100" class="view_source">Source</a>
+    <a href="https://github.com/carlo-colombo/dublin-bus-api/blob/master/lib/stop.ex#L103" class="view_source">Source</a>
   
 </section>
 
