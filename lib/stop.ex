@@ -105,6 +105,7 @@ defmodule Stop do
     HTTPoison.get(@search_url <> query)
     |> get_body
     |> Floki.find("#GridViewStopResults")
+    |> hd        # get the only element
     |> Tuple.to_list
     |> List.last # look for the children of the table (tr)
     |> tl        # discard the header
