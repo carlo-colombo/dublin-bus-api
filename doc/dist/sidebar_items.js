@@ -1,10 +1,1 @@
-sidebarNodes = {
-  "modules": [
-    {"id": "Stop",
-"docs": ["get_info/1","last_time_checked/0","search/1"]
-},{"id": "Stop.Row"
-
-  }]
-
-};
-fillSidebarWithNodes(sidebarNodes);
+sidebarNodes={"exceptions":[],"extras":[{"id":"extra-api-reference","title":"API Reference","headers":[]}],"modules":[{"id":"Stop","title":"Stop","functions":[{"id":"get_info/1","anchor":"get_info/1"},{"id":"last_time_checked/0","anchor":"last_time_checked/0"},{"id":"search/1","anchor":"search/1"}],"types":[{"id":"row/0","anchor":"t:row/0"},{"id":"stop/0","anchor":"t:stop/0"}]},{"id":"Stop.Row","title":"Stop.Row"}],"protocols":[]}
