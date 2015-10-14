@@ -22,7 +22,8 @@ defmodule DublinBusApi.Mixfile do
   end
 
   def application do
-    [applications: [:httpoison]]
+    [applications: [:httpoison,
+                   :floki]]
   end
 
   defp deps do
