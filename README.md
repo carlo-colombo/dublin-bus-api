@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/carlo-colombo/dublin-bus-api.svg?branch=master)](https://travis-ci.org/carlo-colombo/dublin-bus-api)
+[![Hex.pm](https://img.shields.io/hexpm/v/dublin_bus_api.svg?style=flat-square)](https://hex.pm/packages/dublin_bus_api)
 
 Dublin Bus API
 =============
