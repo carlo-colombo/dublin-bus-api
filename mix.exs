@@ -3,7 +3,7 @@ defmodule DublinBusApi.Mixfile do
 
   def project do
     [app: :dublin_bus_api,
-     version: "0.1.2-1",
+     version: "0.1.3",
      elixir: "~> 1.0",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -27,10 +27,10 @@ defmodule DublinBusApi.Mixfile do
   end
 
   defp deps do
-    [{:floki, "~> 0.3"},
+    [{:floki, "~> 0.6"},
      {:httpoison, "~> 0.7"},
      {:earmark, "~> 0.1", only: :dev},
-     {:ex_doc, "~> 0.8", only: :dev},
+     {:ex_doc, "~> 0.10", only: :dev},
      {:mock, "~> 0.1.1", only: :test}]
   end
 end
