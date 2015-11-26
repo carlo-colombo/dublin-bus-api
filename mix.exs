@@ -31,6 +31,7 @@ defmodule DublinBusApi.Mixfile do
      {:httpoison, "~> 0.7"},
      {:earmark, "~> 0.1", only: :dev},
      {:ex_doc, "~> 0.10", only: :dev},
-     {:mock, "~> 0.1.1", only: :test}]
+     {:mock, "~> 0.1.1", only: :test},
+     {:credo, "~> 0.1.4", only: :test}]
   end
 end
