@@ -65,6 +65,11 @@ defmodule Stop do
   """
   def last_time_checked(), do: @last_time_checked
 
+  @doc """
+  Return the last time it was checked that the html parsing is still working as a string (yyyy-MM-dd)
+  """
+  def last_time_checked_formatted, do: @last_time_checked_formatted
+
   @doc"""
   Return the requested `Stop`
   """
