@@ -2,7 +2,7 @@ defmodule Stop do
 
   defstruct name: nil, ref: nil, timetable: [], lines: []
 
-  @last_time_checked {2015, 10, 14}
+  @last_time_checked {2015, 12, 23}
   @last_time_checked_formatted @last_time_checked
   |> Tuple.to_list
   |> Enum.join("-")
