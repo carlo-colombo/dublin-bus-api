@@ -3,11 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Stop – Dublin Bus API v0.1.4</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="ExDoc v0.11.1">
-    <link rel="stylesheet" href="dist/app-6bc9434c82.css" />
+    <meta name="generator" content="ExDoc v0.11.3">
+    <title>Stop – Dublin Bus API v0.1.4</title>
+    <link rel="stylesheet" href="dist/app-ddd9717ad9.css" />
     <script src="dist/sidebar_items.js"></script>
   </head>
   <body data-type="modules">
@@ -79,7 +78,7 @@
 <p>This service is in no way affiliated with Dublin Bus or the providers of the RTPI service.</p>
 <p>Data are retrieved parsing the still-in-development <a href="http://rtpi.ie/">RTPI</a> site. As with any website
 scraping the html could change without notice and break the API.</p>
-<p>Rtpi.ie html parsing work as <strong>2015-10-14</strong></p>
+<p>Rtpi.ie html parsing work as <strong>2016-1-6</strong></p>
 <h2>Test</h2>
 <p>Parsing function are tested both against fixture and the actual website, this could lead to failing test if an
 internet connection is missing. It also could find if something has changed in the rtpi.ie website html.</p>
@@ -184,14 +183,14 @@ internet connection is missing. It also could find if something has changed in t
           </h1>
           <div class="types-list">
             <div id="t:row/0" class="type-detail">
-  <pre><code class="elixir"><a href="#t:row/0">row</a> :: %Stop.Row{line: <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>, direction: <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>, time: <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>}</code></pre>
+  <pre><code class="elixir"><a href="#t:row/0">row</a> :: %Stop.Row{direction: <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>, line: <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>, time: <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>}</code></pre>
   
     <div class="typespec-doc"><p>A struct that represent a row in a bus stop timetable, time could be an absolute (16:13) or relative time (5m).</p>
 </div>
   
 </div>
 <div id="t:stop/0" class="type-detail">
-  <pre><code class="elixir"><a href="#t:stop/0">stop</a> :: %Stop{name: <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>, ref: <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>, lines: [<a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>], timetable: [<a href="#t:row/0">row</a>]}</code></pre>
+  <pre><code class="elixir"><a href="#t:stop/0">stop</a> :: %Stop{lines: [<a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>], name: <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>, ref: <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>, timetable: [<a href="#t:row/0">row</a>]}</code></pre>
   
     <div class="typespec-doc"><p>A struct that represent a single stop, it could contain the <code class="inline">timetable</code> or the <code class="inline">lines</code> that serve the stop.</p>
 <p><code class="inline">name</code> and <code class="inline">ref</code> are always available</p>
@@ -314,18 +313,19 @@ internet connection is missing. It also could find if something has changed in t
       <p>
         <span class="line">
           Built using
-          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.11.1),
+          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.11.3),
         </span>
         <span class="line">
           designed by
           <a href="https://twitter.com/dignifiedquire" target="_blank" title="@dignifiedquire">Friedel Ziegelmayer</a>.
           </span>
       </p>
+      <button class="night-mode-toggle" />
     </footer>
   </div>
 </section>
 </div>
-  <script src="dist/app-c7aad77d7d.js"></script>
+  <script src="dist/app-6d2e071366.js"></script>
   </body>
 </html>
 
