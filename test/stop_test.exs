@@ -81,4 +81,14 @@ defmodule StopTest do
     assert first.ref == "02826"
     assert first.__struct__ == Stop
   end
+
+  test "search with request (Sandwith Street)" do
+    resp = Stop.search("Sandwith Street")
+    first = List.first(resp)
+
+    assert Enum.count(resp) == 1
+    assert first.name == "Sandwith Street"
+    assert first.ref == "00350"
+    assert first.__struct__ == Stop
+  end
 end
