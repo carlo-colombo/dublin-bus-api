@@ -27,8 +27,8 @@ defmodule DublinBusApi.Mixfile do
   end
 
   defp deps do
-    [{:floki, "~> 0.6"},
-     {:httpoison, "~> 0.7"},
+    [{:floki, "~> 0.7"},
+     {:httpoison, "~> 0.8"},
      {:earmark, "~> 0.2", only: :dev},
      {:ex_doc, "~> 0.11", only: :dev},
      {:mock, "~> 0.1.1", only: :test},
