@@ -39,6 +39,7 @@ defmodule Stop do
 
   @info_url "http://rtpi.ie/Popup_Content/WebDisplay/WebDisplay.aspx?stopRef="
   @search_url  "http://rtpi.ie/Text/StopResults.aspx?did=-1&search="
+  @regex Regex.compile!("stopRef=(?<stop>.*)\&stopName")
 
 
   @typedoc """
@@ -78,7 +79,7 @@ defmodule Stop do
   def get_info(id) when is_binary(id) do
     stop = String.rjust(id,5,?0)
 
-    body = HTTPoison.get(@info_url <> stop)
+    {:ok, body} = HTTPoison.get(@info_url <> stop)
     |> get_body
 
     timetable = Floki.find(body,".gridRow")
@@ -108,24 +109,39 @@ defmodule Stop do
   @spec search(String.t) :: list(stop)
   def search(query) do
 
-    HTTPoison.get(@search_url <> query)
+    body = HTTPoison.get(@search_url <> URI.encode(query),[], [follow_redirect: false])
     |> get_body
-    |> Floki.find("#GridViewStopResults")
-    |> hd        # get the only element
-    |> Tuple.to_list
-    |> List.last # look for the children of the table (tr)
-    |> tl        # discard the header
-    |> Enum.map(&parse_stop/1)
-    |> Enum.reject(&is_nil(&1))
 
+    case body do
+      {:ok, body} ->
+        Floki.find(body, "#GridViewStopResults")
+        |> hd        # get the only element
+        |> Tuple.to_list
+        |> List.last # look for the children of the table (tr)
+        |> tl        # discard the header
+        |> Enum.map(&parse_stop/1)
+        |> Enum.reject(&is_nil(&1))
+      {:redirect, stop} ->
+        [get_info(stop)]
+    end
   end
 
   defp get_body({:ok,
                  %HTTPoison.Response{status_code: 200,
                                      body: body}}) do
-    body
+    {:ok, body}
   end
 
+  defp get_body({:ok,
+                 %HTTPoison.Response{status_code: 302,
+                                     headers: headers}}) do
+
+    {_,location} = Enum.find(headers, fn(header) -> elem(header, 0) == "Location" end)
+
+    %{"stop" => stop} = Regex.named_captures(@regex, location)
+
+    {:redirect, stop}
+  end
 
   defp parse_stop({"tr", _ ,
                    [{"td",_ , [line]},
