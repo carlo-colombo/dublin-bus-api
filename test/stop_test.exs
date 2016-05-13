@@ -66,10 +66,16 @@ defmodule StopTest do
     resp = Stop.search("d'olier")
     first = List.first(resp)
 
-    assert Enum.count(resp) == 4
+    assert Enum.count(resp) == 5
     assert first.name == "D'Olier Street"
     assert first.ref == "00333"
     assert first.__struct__ == Stop
+  end
+
+  test "search with request (asdsa1111)" do
+    resp = Stop.search("asdsa1111")
+
+    assert Enum.count(resp) == 0
   end
 
   test "search with request (dundrum)" do
@@ -83,11 +89,11 @@ defmodule StopTest do
   end
 
   test "search with request (Sandwith Street)" do
-    resp = Stop.search("Sandwith Street")
+    resp = Stop.search("Townsend Street")
     first = List.first(resp)
 
     assert Enum.count(resp) == 1
-    assert first.name == "Sandwith Street"
+    assert first.name == "Townsend Street"
     assert first.ref == "00350"
     assert first.__struct__ == Stop
   end

@@ -2,7 +2,7 @@ defmodule Stop do
 
   defstruct name: nil, ref: nil, timetable: [], lines: []
 
-  @last_time_checked {2016, 3, 1}
+  @last_time_checked {2016, 5, 13}
 
   @last_time_checked_formatted @last_time_checked
   |> Tuple.to_list
@@ -114,15 +114,19 @@ defmodule Stop do
 
     case body do
       {:ok, body} ->
-        Floki.find(body, "#GridViewStopResults")
-        |> hd        # get the only element
-        |> Tuple.to_list
-        |> List.last # look for the children of the table (tr)
-        |> tl        # discard the header
-        |> Enum.map(&parse_stop/1)
-        |> Enum.reject(&is_nil(&1))
+        case Floki.find(body, "#GridViewStopResults") do
+          [] -> []
+          elements -> elements
+            |> hd        # get the only element
+            |> Tuple.to_list
+            |> List.last # look for the children of the table (tr)
+            |> tl        # discard the header
+            |> Enum.map(&parse_stop/1)
+            |> Enum.reject(&is_nil(&1))
+        end
       {:redirect, stop} ->
         [get_info(stop)]
+      {:no_results} -> []
     end
   end
 
@@ -142,6 +146,8 @@ defmodule Stop do
 
     {:redirect, stop}
   end
+
+  defp get_body(_), do: {:no_results}
 
   defp parse_stop({"tr", _ ,
                    [{"td",_ , [line]},
