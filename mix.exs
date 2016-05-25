@@ -5,7 +5,6 @@ defmodule DublinBusApi.Mixfile do
     [app: :dublin_bus_api,
      version: "0.1.8",
      elixir: "~> 1.0",
-     main: Stop,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps,
@@ -13,6 +12,9 @@ defmodule DublinBusApi.Mixfile do
      name: "Dublin Bus API",
      source_url: "https://github.com/carlo-colombo/dublin-bus-api",
      test_coverage: [tool: Coverex.Task, coveralls: true],
+     docs: [
+       main: Stop
+     ],
      package: [
        licenses: ["MIT"],
        mainteiners: ["Carlo Colombo"],
