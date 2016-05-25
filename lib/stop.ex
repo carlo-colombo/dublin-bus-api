@@ -34,6 +34,7 @@ defmodule Stop do
   """
 
   defmodule Row do
+    @moduledoc false
     defstruct [:line, :direction, :time]
   end
 
@@ -78,14 +79,18 @@ defmodule Stop do
   @spec get_info(String.t) :: stop
   def get_info(id) when is_binary(id) do
     stop = String.rjust(id,5,?0)
+    url = @info_url <> stop
 
-    {:ok, body} = HTTPoison.get(@info_url <> stop)
+    {:ok, body} = url
+    |> HTTPoison.get
     |> get_body
 
-    timetable = Floki.find(body,".gridRow")
+    timetable = body
+    |> Floki.find(".gridRow")
     |> Enum.map(&parse_row/1)
 
-    name = Floki.find(body, "#stopTitle")
+    name = body
+    |> Floki.find("#stopTitle")
     |> Floki.text
     |> String.split("-")
     |> List.first
@@ -108,8 +113,10 @@ defmodule Stop do
   """
   @spec search(String.t) :: list(stop)
   def search(query) do
+    url = @search_url <> URI.encode(query)
 
-    body = HTTPoison.get(@search_url <> URI.encode(query),[], [follow_redirect: false])
+    body = url
+    |> HTTPoison.get([], [follow_redirect: false])
     |> get_body
 
     case body do
@@ -139,8 +146,8 @@ defmodule Stop do
   defp get_body({:ok,
                  %HTTPoison.Response{status_code: 302,
                                      headers: headers}}) do
-
-    {_,location} = Enum.find(headers, fn(header) -> elem(header, 0) == "Location" end)
+    {_, location} = headers
+    |> Enum.find(fn(header) -> elem(header, 0) == "Location" end)
 
     %{"stop" => stop} = Regex.named_captures(@regex, location)
 
@@ -151,13 +158,13 @@ defmodule Stop do
 
   defp parse_stop({"tr", _ ,
                    [{"td",_ , [line]},
-                    {"td",_ , [name]}, lines_html ]}) do
+                    {"td",_ , [name]}, lines_html]}) do
 
     lines = try do
               lines_html
               |> Floki.find("tr")
               |> Enum.map(&Floki.find(&1,"td"))
-              |> Enum.map(fn x -> Enum.map(x, &Floki.text/1) |> List.to_tuple end )
+              |> Enum.map(fn x -> x |> Enum.map(&Floki.text/1) |> List.to_tuple end)
               |> Enum.into(%{})
             rescue
               _ -> %{}
@@ -165,7 +172,7 @@ defmodule Stop do
 
     %Stop{name: Floki.text(name),
           ref: line,
-          lines: lines  }
+          lines: lines}
   end
 
   defp parse_stop(_), do: nil
