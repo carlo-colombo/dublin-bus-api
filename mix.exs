@@ -3,8 +3,9 @@ defmodule DublinBusApi.Mixfile do
 
   def project do
     [app: :dublin_bus_api,
-     version: "0.1.7",
+     version: "0.1.8",
      elixir: "~> 1.0",
+     main: Stop,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps,
@@ -17,7 +18,7 @@ defmodule DublinBusApi.Mixfile do
        mainteiners: ["Carlo Colombo"],
        links: %{
          "Github" => "https://github.com/carlo-colombo/dublin-bus-api",
-         "docs" => "http://hexdocs.pm/dublin_bus_api"
+         "docs" => "http://hexdocs.pm/dublin_bus_api/Stop.html"
        }
      ]]
   end
@@ -33,7 +34,7 @@ defmodule DublinBusApi.Mixfile do
      {:earmark, "~> 0.2", only: :dev},
      {:ex_doc, "~> 0.11", only: :dev},
      {:mock, "~> 0.1.1", only: :test},
-     {:credo, "~> 0.2.5", only: :test},
+     {:credo, "~> 0.3", only: [:test, :dev]},
      {:coverex, "~> 1.4.7", only: :test}]
   end
 end
