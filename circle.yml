@@ -19,4 +19,4 @@ dependencies:
     - mix local.rebar
 test:
   override:
-    - mix test --no-start
+    - MIX_ENV=test mix do deps.get, deps.compile, test --cover 
