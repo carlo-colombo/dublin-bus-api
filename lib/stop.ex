@@ -38,8 +38,8 @@ defmodule Stop do
     defstruct [:line, :direction, :time]
   end
 
-  @info_url "http://rtpi.ie/Popup_Content/WebDisplay/WebDisplay.aspx?stopRef="
-  @search_url  "http://rtpi.ie/Text/StopResults.aspx?did=-1&search="
+  @info_url "http://www.rtpi.ie/Popup_Content/WebDisplay/WebDisplay.aspx?stopRef="
+  @search_url  "http://www.rtpi.ie/Text/StopResults.aspx?did=-1&search="
   @regex Regex.compile!("stopRef=(?<stop>.*)\&stopName")
 
 
