@@ -6,7 +6,7 @@ defmodule DublinBusApi.Mixfile do
      version: "0.1.9",
      elixir: "~> 1.0",
      build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
+     start_permanentbus: Mix.env == :prod,
      deps: deps,
      description: "Access to the Real Time Passenger Information (RTPI) for Dublin Bus services.",
      name: "Dublin Bus API",
