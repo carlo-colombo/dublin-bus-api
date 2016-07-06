@@ -178,9 +178,9 @@ defmodule Stop do
   defp parse_stop(_), do: nil
 
   defp parse_row({"tr", _,
-                  [{"td", [{"class", "gridServiceItem"}, _], [line]},
+                  [{"td", [{"class", "gridServiceItem"}, _], [line]}, _,
                    {"td", [{"class", "gridDestinationItem"}, _],
-                    [{"span", _, [direction]}]},
+                    [{"span", _, [direction]}]}, _,
                    {"td", [{"class", "gridTimeItem"}, _], [time]}, _]}) do
 
     %Row{time: time,

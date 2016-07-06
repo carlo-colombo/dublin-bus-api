@@ -18,7 +18,12 @@ defmodule StopTest do
 
   test "get_info works with a number too" do
     TestHelper.with_response_from_fixture ("test/fixture/WebDisplay.html") do
-      Stop.get_info(112)
+      resp = Stop.get_info(112)
+      timetable = resp.timetable
+
+      assert resp.name == "Neilstown Road"
+      assert Enum.count(timetable) == 5
+      assert resp.__struct__ == Stop
     end
   end
 
