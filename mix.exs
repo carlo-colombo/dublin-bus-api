@@ -7,7 +7,7 @@ defmodule DublinBusApi.Mixfile do
      elixir: "~> 1.0",
      build_embedded: Mix.env == :prod,
      start_permanentbus: Mix.env == :prod,
-     deps: deps,
+     deps: deps(),
      description: "Access to the Real Time Passenger Information (RTPI) for Dublin Bus services.",
      name: "Dublin Bus API",
      source_url: "https://github.com/carlo-colombo/dublin-bus-api",
@@ -31,12 +31,12 @@ defmodule DublinBusApi.Mixfile do
   end
 
   defp deps do
-    [{:floki, "~> 0.7"},
-     {:httpoison, "~> 0.8"},
-     {:earmark, "~> 0.2", only: :dev},
-     {:ex_doc, "~> 0.11", only: :dev},
-     {:mock, "~> 0.1.1", only: :test},
-     {:credo, "~> 0.3", only: [:test, :dev]},
-     {:coverex, "~> 1.4.7", only: :test}]
+    [{:floki, "~> 0.15"},
+     {:httpoison, "~> 0.11"},
+     {:earmark, "~> 1.2", only: :dev},
+     {:ex_doc, "~> 0.15", only: :dev},
+     {:mock, "~> 0.2.1", only: :test},
+     {:credo, "~> 0.7", only: [:test, :dev]},
+     {:coverex, "~> 1.4.12", only: :test}]
   end
 end
