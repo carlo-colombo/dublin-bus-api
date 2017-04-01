@@ -26,7 +26,6 @@ defmodule Stop do
 
   Rtpi.ie html parsing work as **#{@last_time_checked_formatted}**
 
-
   Test
   -----
   Parsing function are tested both against fixture and the actual website, this could lead to failing test if an
@@ -41,7 +40,6 @@ defmodule Stop do
   @info_url "http://www.rtpi.ie/Popup_Content/WebDisplay/WebDisplay.aspx?stopRef="
   @search_url  "http://www.rtpi.ie/Text/StopResults.aspx?did=-1&search="
   @regex Regex.compile!("stopRef=(?<stop>.*)\&stopName")
-
 
   @typedoc """
   A struct that represent a row in a bus stop timetable, time could be an absolute (16:13) or relative time (5m).
@@ -66,7 +64,7 @@ defmodule Stop do
   @doc """
   Return the last time it was checked that the html parsing is still working
   """
-  def last_time_checked(), do: @last_time_checked
+  def last_time_checked, do: @last_time_checked
 
   @doc """
   Return the last time it was checked that the html parsing is still working as a string (yyyy-MM-dd)
@@ -78,7 +76,7 @@ defmodule Stop do
   """
   @spec get_info(String.t) :: stop
   def get_info(id) when is_binary(id) do
-    stop = String.rjust(id,5,?0)
+    stop = String.rjust(id, 5, ?0)
     url = @info_url <> stop
 
     {:ok, body} = url
@@ -124,12 +122,12 @@ defmodule Stop do
         case Floki.find(body, "#GridViewStopResults") do
           [] -> []
           elements -> elements
-            |> hd        # get the only element
-            |> Tuple.to_list
-            |> List.last # look for the children of the table (tr)
-            |> tl        # discard the header
-            |> Enum.map(&parse_stop/1)
-            |> Enum.reject(&is_nil(&1))
+          |> hd        # get the only element
+          |> Tuple.to_list
+          |> List.last # look for the children of the table (tr)
+          |> tl        # discard the header
+          |> Enum.map(&parse_stop/1)
+          |> Enum.reject(&is_nil(&1))
         end
       {:redirect, stop} ->
         [get_info(stop)]
@@ -157,13 +155,13 @@ defmodule Stop do
   defp get_body(_), do: {:no_results}
 
   defp parse_stop({"tr", _ ,
-                   [{"td",_ , [line]},
-                    {"td",_ , [name]}, lines_html]}) do
+                   [{"td", _ , [line]},
+                    {"td", _ , [name]}, lines_html]}) do
 
     lines = try do
               lines_html
               |> Floki.find("tr")
-              |> Enum.map(&Floki.find(&1,"td"))
+              |> Enum.map(&Floki.find(&1, "td"))
               |> Enum.map(fn x -> x |> Enum.map(&Floki.text/1) |> List.to_tuple end)
               |> Enum.into(%{})
             rescue
