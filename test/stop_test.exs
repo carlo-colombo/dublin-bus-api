@@ -6,7 +6,7 @@ defmodule StopTest do
   require TestHelper
 
   test "get_info on fixture (macro)" do
-    TestHelper.with_response_from_fixture ("test/fixture/WebDisplay.html") do
+    TestHelper.with_response_from_fixture ["test/fixture/WebDisplay.html"] do
       resp = Stop.get_info("112")
       timetable = resp.timetable
 
@@ -17,7 +17,7 @@ defmodule StopTest do
   end
 
   test "get_info works with a number too" do
-    TestHelper.with_response_from_fixture ("test/fixture/WebDisplay.html") do
+    TestHelper.with_response_from_fixture ["test/fixture/WebDisplay.html"] do
       resp = Stop.get_info(112)
       timetable = resp.timetable
 
@@ -36,7 +36,7 @@ defmodule StopTest do
 
 
   test "search with fixture" do
-    TestHelper.with_response_from_fixture "test/fixture/StopResults.html" do
+    TestHelper.with_response_from_fixture ["test/fixture/StopResults.html"] do
       resp = Stop.search("not important")
       first = List.first(resp)
 
@@ -51,7 +51,7 @@ defmodule StopTest do
   end
 
   test "search should handle stops with no services" do
-    TestHelper.with_response_from_fixture "test/fixture/StopResults2.html" do
+    TestHelper.with_response_from_fixture ["test/fixture/StopResults2.html"] do
       resp = Stop.search("dundrum")
       third = Enum.at(resp,2)
 
@@ -60,7 +60,7 @@ defmodule StopTest do
   end
 
   test "search should return max ten results" do
-    TestHelper.with_response_from_fixture "test/fixture/StopResults2.html" do
+    TestHelper.with_response_from_fixture ["test/fixture/StopResults2.html"] do
       resp = Stop.search("dundrum")
 
       assert Enum.count(resp) == 10
