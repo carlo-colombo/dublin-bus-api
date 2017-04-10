@@ -33,7 +33,7 @@ defmodule DublinBusApi.Mixfile do
   defp deps do
     [{:floki, "~> 0.15"},
      {:httpoison, "~> 0.11"},
-     {:poison, "~> 3.0", override: true},
+     {:poison, "~> 2.0"},
      {:earmark, "~> 1.2", only: :dev},
      {:ex_doc, "~> 0.15", only: :dev},
      {:mock, "~> 0.2.1", only: :test},
