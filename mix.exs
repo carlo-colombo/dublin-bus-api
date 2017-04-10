@@ -3,7 +3,7 @@ defmodule DublinBusApi.Mixfile do
 
   def project do
     [app: :dublin_bus_api,
-     version: "0.1.10",
+     version: "0.1.11",
      elixir: "~> 1.0",
      build_embedded: Mix.env == :prod,
      start_permanentbus: Mix.env == :prod,
