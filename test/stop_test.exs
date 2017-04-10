@@ -6,24 +6,19 @@ defmodule StopTest do
   require TestHelper
 
   test "get_info on fixture (macro)" do
-    TestHelper.with_response_from_fixture ["test/fixture/WebDisplay.html"] do
+    TestHelper.with_response_from_fixture ["test/fixture/busstopinformation.json", "test/fixture/realtimebusinformation.json"] do
       resp = Stop.get_info("112")
       timetable = resp.timetable
 
-      assert resp.name == "Neilstown Road"
+      assert resp.name == "Townsend Street"
       assert Enum.count(timetable) == 5
       assert resp.__struct__ == Stop
     end
   end
 
   test "get_info works with a number too" do
-    TestHelper.with_response_from_fixture ["test/fixture/WebDisplay.html"] do
-      resp = Stop.get_info(112)
-      timetable = resp.timetable
-
-      assert resp.name == "Neilstown Road"
-      assert Enum.count(timetable) == 5
-      assert resp.__struct__ == Stop
+    TestHelper.with_response_from_fixture ["test/fixture/busstopinformation.json", "test/fixture/realtimebusinformation.json"] do
+      assert Stop.get_info(112) == Stop.get_info("112")
     end
   end
 
@@ -99,7 +94,7 @@ defmodule StopTest do
 
     assert Enum.count(resp) == 1
     assert first.name == "Townsend Street"
-    assert first.ref == "00350"
+    assert first.ref == "350"
     assert first.__struct__ == Stop
   end
 end

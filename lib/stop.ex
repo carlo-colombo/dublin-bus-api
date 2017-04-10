@@ -37,7 +37,9 @@ defmodule Stop do
     defstruct [:line, :direction, :time]
   end
 
-  @info_url "http://www.rtpi.ie/Popup_Content/WebDisplay/WebDisplay.aspx?stopRef="
+  @info_url      "https://data.dublinked.ie/cgi-bin/rtpi/busstopinformation?format=json&stopid="
+  @real_time_url "https://data.dublinked.ie/cgi-bin/rtpi/realtimebusinformation?format=json&stopid="
+
   @search_url  "http://www.rtpi.ie/Text/StopResults.aspx?did=-1&search="
   @regex Regex.compile!("stopRef=(?<stop>.*)\&stopName")
 
@@ -71,28 +73,31 @@ defmodule Stop do
   """
   def last_time_checked_formatted, do: @last_time_checked_formatted
 
+
+  defp make_request(url) do
+    {:ok, res} = url
+    |> HTTPoison.get
+    |> get_body
+    |> elem(1)
+    |> Poison.decode
+
+    res
+  end
+
   @doc"""
   Return the requested `Stop`
   """
   @spec get_info(String.t) :: stop
-  def get_info(id) when is_binary(id) do
-    stop = String.rjust(id, 5, ?0)
-    url = @info_url <> stop
+  def get_info(stop) when is_binary(stop) do
+    [ok: info, ok: real_time] = [@info_url, @real_time_url]
+    |> Enum.map(fn url -> url <> stop end)
+    |> Task.async_stream(&make_request/1)
+    |> Enum.to_list
 
-    {:ok, body} = url
-    |> HTTPoison.get
-    |> get_body
+    [%{"fullname" => name}|_] = info["results"]
 
-    timetable = body
-    |> Floki.find(".gridRow")
+    timetable = real_time["results"]
     |> Enum.map(&parse_row/1)
-
-    name = body
-    |> Floki.find("#stopTitle")
-    |> Floki.text
-    |> String.split("-")
-    |> List.first
-    |> String.strip
 
     %Stop{
       ref: stop,
@@ -130,7 +135,8 @@ defmodule Stop do
           |> Enum.reject(&is_nil(&1))
         end
       {:redirect, stop} ->
-        [get_info(stop)]
+        {stop_int, ""} = Integer.parse(stop)
+        [get_info(stop_int)]
       {:no_results} -> []
     end
   end
@@ -174,6 +180,10 @@ defmodule Stop do
   end
 
   defp parse_stop(_), do: nil
+
+  defp parse_row(%{"duetime" => time,"destination" => destination, "route" => line }), do: %Row{time: time,
+                                                  line: line,
+                                                  direction: destination}
 
   defp parse_row({"tr", _,
                   [{"td", [{"class", "gridServiceItem"}, _], [line]}, _,
