@@ -1,4 +1,12 @@
 defmodule FixturesAgent do
+  @moduledoc """
+  Fixtures Agent
+  =============
+
+  Simple agent that rotate through a list of string, wrapping them with an HTTPoison.Response
+
+  """
+
   def new(fixtures) do
     Agent.start_link(fn -> fixtures end)
   end
@@ -15,4 +23,3 @@ defmodule FixturesAgent do
     Agent.get(pid, fn(n) -> n end)
   end
 end
-

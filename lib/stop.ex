@@ -73,7 +73,6 @@ defmodule Stop do
   """
   def last_time_checked_formatted, do: @last_time_checked_formatted
 
-
   defp make_request(url) do
     {:ok, res} = url
     |> HTTPoison.get
@@ -168,7 +167,8 @@ defmodule Stop do
               lines_html
               |> Floki.find("tr")
               |> Enum.map(&Floki.find(&1, "td"))
-              |> Enum.map(fn x -> x |> Enum.map(&Floki.text/1) |> List.to_tuple end)
+              |> Enum.map(fn x -> x |> Enum.map(&Floki.text/1)  end)
+              |> Enum.map(&List.to_tuple/1)
               |> Enum.into(%{})
             rescue
               _ -> %{}
@@ -181,7 +181,7 @@ defmodule Stop do
 
   defp parse_stop(_), do: nil
 
-  defp parse_row(%{"duetime" => time,"destination" => destination, "route" => line }), do: %Row{time: time,
+  defp parse_row(%{"duetime" => time, "destination" => destination, "route" => line}), do: %Row{time: time,
                                                   line: line,
                                                   direction: destination}
 
