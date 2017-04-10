@@ -17,7 +17,7 @@ defmodule DublinBusApi.Mixfile do
      ],
      package: [
        licenses: ["MIT"],
-       mainteiners: ["Carlo Colombo"],
+       maintainers: ["Carlo Colombo"],
        links: %{
          "Github" => "https://github.com/carlo-colombo/dublin-bus-api",
          "docs" => "http://hexdocs.pm/dublin_bus_api/Stop.html"
