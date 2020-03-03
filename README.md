@@ -9,7 +9,7 @@ Access to the Real Time Passenger Information (RTPI) for Dublin Bus services.
 
 The API are focused on retrieving bus stop and timetables
 
-Documentatio is available at http://hexdocs.pm/dublin_bus_api/Stop.html
+Documentation is available at http://hexdocs.pm/dublin_bus_api/Stop.html
 
 Disclaimer
 ----------
